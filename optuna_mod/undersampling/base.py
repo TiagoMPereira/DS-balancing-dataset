@@ -1,5 +1,5 @@
 import pickle as pkl
-from typing import Dict
+from typing import Dict, Optional
 
 import pandas as pd
 from imblearn.under_sampling.base import BaseUnderSampler
@@ -34,6 +34,8 @@ class IUndersampling(object):
         Args:
             - occurences: Dict[str, int] | number of rows (values) to be
             dropped for each class (keys)
+            - data: pd.DataFrame - Optional | dataframe do be resampled,
+            if not passed, self.data is used
         Return:
             - pandas DataFrame with the original data + generated data
         '''
@@ -82,15 +84,23 @@ class ImblearnUndersampling(IUndersampling):
         self.X = self.data.drop(columns=self.target)
         self.y = self.data[self.target]
 
-    def resample(self, occurences: Dict[str, int]) -> pd.DataFrame:
+    def resample(
+        self, occurences: Dict[str, int], data: Optional[pd.DataFrame] = None
+    ) -> pd.DataFrame:
 
         total_rows = self._get_conditions(occurences)
         self.model.sampling_strategy = total_rows
 
+        if data is None:
+            data = self.data
+            _X = self.X
+            _y = self.y
+        else:
+            _X = data.drop(columns=self.target)
+            _y = data[self.target]
+
         # The resampled data consists of the original data + the resampled data
-        X_resampled, y_resampled = self.model.fit_resample(
-            X=self.X, y=self.y
-        )
+        X_resampled, y_resampled = self.model.fit_resample(X=_X, y=_y)
 
         resampled_data = pd.concat([X_resampled, y_resampled], axis=1)
         return resampled_data
