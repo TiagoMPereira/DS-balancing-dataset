@@ -150,7 +150,7 @@ class ImblearnOversampling(IOversampling):
         self.model.sampling_strategy = total_rows
 
         # The resampled data consists of the original data + the resampled data
-        X_resampled, y_resampled = self.synthesizer.fit_resample(
+        X_resampled, y_resampled = self.model.fit_resample(
             X=self.X, y=self.y
         )
 
