@@ -3,7 +3,6 @@ from typing import Dict, List
 
 import pandas as pd
 from imblearn.over_sampling.base import BaseOverSampler
-from sdv.metadata import SingleTableMetadata
 from sdv.sampling import Condition
 from sdv.single_table.base import BaseSingleTableSynthesizer
 
@@ -74,8 +73,9 @@ class SDVOversampling(IOversampling):
         self.sample_memo = None
 
     def _create_model(self):
-        self.metadata = SDVMetadata()
-        self.metadata.create_from_df(self.data)
+        metadata_obj = SDVMetadata()
+        metadata_obj.create_from_df(self.data)
+        self.metadata = metadata_obj.metadata
         self.model: BaseSingleTableSynthesizer = None
 
     def _get_conditions(self, conditions: Dict[str, int]) -> List[Condition]:
@@ -167,4 +167,3 @@ class ImblearnOversampling(IOversampling):
             obj = pkl.load(fp)
 
         return obj
-
