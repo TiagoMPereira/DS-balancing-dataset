@@ -79,6 +79,11 @@ class SDVOversampling(IOversampling):
         self.model: BaseSingleTableSynthesizer = None
 
     def _get_conditions(self, conditions: Dict[str, int]) -> List[Condition]:
+
+        # conditions has the number of rows to be generated
+        # The SDV submodules also require the number of rows to be generated.
+        # So the sampling strategy must be CONDITIONS
+
         conditions_list = []
         for class_, n_rows in conditions.items():
             if n_rows == 0:
