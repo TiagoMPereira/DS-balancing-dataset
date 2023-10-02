@@ -12,7 +12,7 @@ from optuna_mod.optimization.optimizer import Objective
 
 if __name__ == "__main__":
 
-    dataset_name = "synthetic_dataset2"
+    dataset_name = "openml_37"
     target = "class"
 
     train_dataset = pd.read_csv(f"./datasets/{dataset_name}_train.csv")
@@ -40,8 +40,8 @@ if __name__ == "__main__":
     )
 
     study = optuna.create_study(direction="maximize")
-    study.optimize(objective, n_trials=10)
+    study.optimize(objective, n_trials=100)
 
     print(study.best_trial)
 
-    print(study.get_trials())
+    # print(study.get_trials())
