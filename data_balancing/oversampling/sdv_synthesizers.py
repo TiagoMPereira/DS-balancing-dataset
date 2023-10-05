@@ -2,7 +2,7 @@ from sdv.lite import SingleTablePreset
 from sdv.single_table import (CopulaGANSynthesizer, CTGANSynthesizer,
                               GaussianCopulaSynthesizer, TVAESynthesizer)
 
-from optuna_mod.oversampling.base import SDVOversampling
+from data_balancing.oversampling.base import SDVOversampling
 
 
 class CopulaGAN(SDVOversampling):

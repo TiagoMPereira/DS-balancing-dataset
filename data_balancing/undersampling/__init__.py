@@ -1,2 +1,2 @@
-from optuna_mod.undersampling.base import IUndersampling
-from optuna_mod.undersampling.imblearn_undersamplers import RandomUnder
+from data_balancing.undersampling.base import IUndersampling
+from data_balancing.undersampling.imblearn_undersamplers import RandomUnder

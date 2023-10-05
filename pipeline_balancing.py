@@ -143,8 +143,15 @@ def apply_balancing(
 
 if __name__ == "__main__":
 
-    dataset_name = "openml_44"
-    target = "class"
+    data_name_target = [
+        {"name": "openml_1462", "target": "Class"},
+        {"name": "openml_1466", "target": "Class"},
+        {"name": "openml_1479", "target": "Class"},
+        {"name": "openml_1510", "target": "Class"},
+        {"name": "openml_40691", "target": "class"},
+        {"name": "openml_40975", "target": "class"},
+    ]
+
     oversampling_thresholds = [0, 0.25, 0.5, 1, 5, "auto"]
     undersampling_thresholds = [0, 0.05, 0.1, 0.2, 0.3, "auto"]
 
@@ -163,19 +170,25 @@ if __name__ == "__main__":
         "random": RandomUnder
     }
 
-    dataset = pd.read_csv(f"datasets/{dataset_name}_train.csv")
+    for d in data_name_target:
+        dataset_name = d["name"]
+        target = d["target"]
 
-    id_ = dataset_name
-    now = datetime.now()
-    date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        print(dataset_name)
 
-    with open(f"{BASE_PATH}{id_}.txt", "a") as f:
-        f.write("\n\n==============================================\n")
-        f.write(date_time)
+        dataset = pd.read_csv(f"datasets/{dataset_name}_train.csv")
 
-    apply_balancing(
-        dataset, target,
-        undersampling_methods, undersampling_thresholds,
-        oversampling_methods, oversampling_thresholds,
-        id_=id_
-    )
+        id_ = dataset_name
+        now = datetime.now()
+        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+
+        with open(f"{BASE_PATH}{id_}.txt", "a") as f:
+            f.write("\n\n==============================================\n")
+            f.write(date_time)
+
+        apply_balancing(
+            dataset, target,
+            undersampling_methods, undersampling_thresholds,
+            oversampling_methods, oversampling_thresholds,
+            id_=id_
+        )

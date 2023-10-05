@@ -6,8 +6,8 @@ from autogluon.tabular import TabularPredictor
 from sklearn.metrics import f1_score
 import logging
 
-from optuna_mod.utils.load_methods import get_over_method, get_under_method
-from optuna_mod.utils.sampling_strategies import (oversampling_strategy,
+from data_balancing.utils.load_methods import get_over_method, get_under_method
+from data_balancing.utils.sampling_strategies import (oversampling_strategy,
                                                   undersampling_strategy)
 
 SEED = 42

@@ -7,14 +7,6 @@ SEED = 42
 EXEC_TIME_MINUTES = 10
 EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
 
-def _train_test_split(X, y, test_size=0.2):
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=SEED
-    )
-    return X_train, X_test, y_train, y_test
-
-
 def _eval(y_test, y_pred):
     def _calculate_score(metric, y_true, y_pred, **kwargs):
         try:
@@ -55,17 +47,3 @@ def fit_eval(X_train, X_test, y_train, y_test):
 
     results = _eval(y_test, y_pred)
     return results
-
-
-if __name__ == "__main__":
-    data = pd.read_csv("./datasets/synthetic_dataset2.csv")
-    target = "class"
-    x_cols = [col for col in data.columns if col!=target]
-
-    X = data[x_cols]
-    y = data[target]
-
-    X_train, X_test, y_train, y_test = _train_test_split(X, y)
-
-    results = fit_eval(X_train, X_test, y_train, y_test)
-    print(results)

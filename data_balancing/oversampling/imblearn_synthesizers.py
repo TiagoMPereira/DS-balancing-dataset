@@ -1,7 +1,7 @@
 import pandas as pd
 from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
 
-from optuna_mod.oversampling.base import ImblearnOversampling
+from data_balancing.oversampling.base import ImblearnOversampling
 
 
 class ADASYNSynthesizer(ImblearnOversampling):

@@ -1,7 +1,7 @@
 import pandas as pd
 from imblearn.under_sampling import RandomUnderSampler, ClusterCentroids
 
-from optuna_mod.undersampling.base import ImblearnUndersampling
+from data_balancing.undersampling.base import ImblearnUndersampling
 
 class RandomUnder(ImblearnUndersampling):
     def __init__(self, data: pd.DataFrame, target: str):

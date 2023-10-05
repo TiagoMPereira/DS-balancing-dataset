@@ -6,7 +6,7 @@ from imblearn.over_sampling.base import BaseOverSampler
 from sdv.sampling import Condition
 from sdv.single_table.base import BaseSingleTableSynthesizer
 
-from optuna_mod.oversampling.metadata.sdv_metadata import SDVMetadata
+from data_balancing.oversampling.metadata.sdv_metadata import SDVMetadata
 
 
 class IOversampling(object):

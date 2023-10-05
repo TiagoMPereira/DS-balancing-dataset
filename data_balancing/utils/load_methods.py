@@ -3,10 +3,10 @@ from typing import Any, Dict
 
 import pandas as pd
 
-from optuna_mod.oversampling import (CTGAN, FASTML, TVAE, ADASYNSynthesizer,
+from data_balancing.oversampling import (CTGAN, FASTML, TVAE, ADASYNSynthesizer,
                                      CopulaGAN, GaussianCopula, IOversampling,
                                      RandomSynthesizer, SMOTESynthesizer)
-from optuna_mod.undersampling import IUndersampling, RandomUnder
+from data_balancing.undersampling import IUndersampling, RandomUnder
 
 
 def get_over_method(
@@ -14,7 +14,7 @@ def get_over_method(
     target: str,
     method_name: str,
     project_id: str,
-    base_path: str = "",
+    base_path: str = "autobalancer_models/",
 ):
     
     # METHODS DICT
@@ -64,7 +64,7 @@ def get_under_method(
     target: str,
     method_name: str,
     project_id: str,
-    base_path: str = ""
+    base_path: str = "autobalancer_models/"
 ):
     
     # METHODS DICT
