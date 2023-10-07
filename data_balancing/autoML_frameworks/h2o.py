@@ -1,5 +1,5 @@
 import pandas as pd
-from autogluon.tabular import TabularPredictor
+from h2o.sklearn import H2OAutoMLClassifier
 from data_balancing.autoML_frameworks.utils import eval
 
 SEED = 42
@@ -12,12 +12,11 @@ def fit_eval(X_train, X_test, y_train, y_test):
     train_df = pd.DataFrame(X_train).assign(**{'class': pd.Series(y_train)}).dropna()
     test_df = pd.DataFrame(X_test).assign(**{'class': pd.Series(y_test)}).dropna()
 
-    clf = TabularPredictor(eval_metric='accuracy', label='class')
+    clf = H2OAutoMLClassifier(max_runtime_secs=EXEC_TIME_SECONDS, nfolds=5, seed=SEED, sort_metric='accuracy')
 
-    clf = clf.fit(time_limit=EXEC_TIME_SECONDS, train_data=train_df)
+    clf.fit(train_df.drop('class', axis=1).values, train_df['class'].values)
 
-    y_test = test_df['class'].values
-    y_pred = clf.predict(test_df)
+    y_pred = clf.predict(X_test)
 
     results = eval(y_test, y_pred)
     return results
