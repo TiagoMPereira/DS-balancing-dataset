@@ -165,3 +165,6 @@ models/
 datasets/
 report/
 AutogluonModels/
+autobalancer_*/
+structured_data_classifier/
+venv-*/

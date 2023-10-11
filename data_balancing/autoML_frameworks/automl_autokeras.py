@@ -1,4 +1,3 @@
-import autokeras as ak
 from data_balancing.autoML_frameworks.utils import eval
 
 SEED = 42
@@ -7,6 +6,7 @@ EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
     
 
 def fit_eval(X_train, X_test, y_train, y_test):
+    import autokeras as ak
 
     multi_label = False
 

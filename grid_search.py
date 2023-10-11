@@ -1,11 +1,25 @@
-from data_balancing.oversampling import (CTGAN, FASTML, TVAE,
-                                            ADASYNSynthesizer, CopulaGAN,
-                                            GaussianCopula, RandomSynthesizer,
-                                            SMOTESynthesizer)
-from data_balancing.undersampling import RandomUnder
 import pandas as pd
-from data_balancing.autoML_frameworks import autogluon
-from data_balancing.utils.load_methods import get_over_method, get_under_method
+from data_balancing.autoML_frameworks import (automl_autogluon,
+                                              automl_autokeras,
+                                              automl_autopytorch,
+                                              automl_autosklearn,
+                                              automl_evalml,
+                                              automl_flaml,
+                                              automl_gama,
+                                              automl_h2o,
+                                              automl_lightautoml,
+                                              automl_tpot)
+from data_balancing.oversampling import (CTGAN,
+                                         FASTML,
+                                         TVAE,
+                                         ADASYNSynthesizer,
+                                         CopulaGAN,
+                                         GaussianCopula,
+                                         RandomSynthesizer,
+                                         SMOTESynthesizer)
+from data_balancing.undersampling import RandomUnder
+from data_balancing.utils.load_methods import (get_over_method,
+                                               get_under_method)
 from data_balancing.utils.sampling_strategies import (oversampling_strategy,
                                                       undersampling_strategy)
 
@@ -14,22 +28,29 @@ UNDERSAMPLING_METHODS = {
     "random": RandomUnder
 }
 OVERSAMPLING_METHODS = {
-    # "adasyn": ADASYNSynthesizer,
-    # "ctgan": CTGAN,
-    # "copulagan": CopulaGAN,
+    "adasyn": ADASYNSynthesizer,
+    "ctgan": CTGAN,
+    "copulagan": CopulaGAN,
     "fastml": FASTML,
-    # "gaussiancopula": GaussianCopula,
+    "gaussiancopula": GaussianCopula,
     "random": RandomSynthesizer,
-    # "smote": SMOTESynthesizer,
-    # "tvae": TVAE
+    "smote": SMOTESynthesizer,
+    "tvae": TVAE
 }
-# UNDERSAMPLING_THRESHOLDS = [0, 0.0625, 0.125, 0.25, 0.5, "auto"]
-# OVERSAMPLING_THRESHOLDS = [0, 0.25, 0.5, 1, 2, "auto"]
-UNDERSAMPLING_THRESHOLDS = [0, 0.125, "auto"]
-OVERSAMPLING_THRESHOLDS = [0, 0.5, "auto"]
+UNDERSAMPLING_THRESHOLDS = [0, 0.0625, 0.125, 0.25, 0.5, "auto"]
+OVERSAMPLING_THRESHOLDS = [0, 0.25, 0.5, 1, 2, "auto"]
 
 FRAMEWORKS = {
-    "autogluon": autogluon
+    "autogluon": automl_autogluon,
+    "autokeras": automl_autokeras,
+    "autopytorch": automl_autopytorch,
+    "autosklearn": automl_autosklearn,
+    "evalml": automl_evalml,
+    "flaml": automl_flaml,
+    "gama": automl_gama,
+    "h2o": automl_h2o,
+    "lightautoml": automl_lightautoml,
+    "tpot": automl_tpot
 }
 
 

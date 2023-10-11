@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -66,4 +67,15 @@ def run_pipeline(dataset_name: str, dataset_target: str, framework_name: str):
         json.dump(results, fp)
 
 if __name__ == "__main__":
-    run_pipeline("openml_44", "class", "autogluon")
+    # =========================================================================
+    # Reading shell variables
+
+    if len(sys.argv) !=4:
+        print('Number of arguments must be 3: "dataset_name", "dataset_target", "framework_name"')
+    else:
+        dataset_name = str(sys.argv[1])
+        dataset_target = str(sys.argv[2])
+        framework_name = str(sys.argv[3])
+        
+    # run_pipeline("openml_44", "class", "autogluon")
+    run_pipeline(dataset_name, dataset_target, framework_name)
