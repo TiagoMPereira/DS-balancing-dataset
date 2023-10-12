@@ -84,12 +84,15 @@ class ImblearnUndersampling(IUndersampling):
         self.X = self.data.drop(columns=self.target)
         self.y = self.data[self.target]
 
+    def _set_sample_strategy(self, occurences):
+        total_rows = self._get_conditions(occurences)
+        self.model.sampling_strategy = total_rows
+
     def resample(
         self, occurences: Dict[str, int], data: Optional[pd.DataFrame] = None
     ) -> pd.DataFrame:
 
-        total_rows = self._get_conditions(occurences)
-        self.model.sampling_strategy = total_rows
+        self._set_sample_strategy(occurences=occurences)
 
         if data is None:
             data = self.data

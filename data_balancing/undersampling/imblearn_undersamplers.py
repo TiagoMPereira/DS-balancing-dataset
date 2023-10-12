@@ -1,5 +1,12 @@
 import pandas as pd
-from imblearn.under_sampling import RandomUnderSampler, ClusterCentroids
+from imblearn.under_sampling import (ClusterCentroids,
+                                     CondensedNearestNeighbour,
+                                     EditedNearestNeighbours,
+                                     InstanceHardnessThreshold,
+                                     NearMiss,
+                                     OneSidedSelection,
+                                     RandomUnderSampler,
+                                     TomekLinks)
 
 from data_balancing.undersampling.base import ImblearnUndersampling
 
@@ -25,3 +32,88 @@ class ClusterCentroidsUnder(ImblearnUndersampling):
             sampling_strategy="auto",
             random_state=self.random_state
         )
+
+
+class CondensedNearestNeighbourUnder(ImblearnUndersampling):
+    def __init__(self, data: pd.DataFrame, target: str):
+        super().__init__(data=data, target=target)
+        self._create_model()
+
+    def _create_model(self):
+        self.model = CondensedNearestNeighbour(
+            sampling_strategy="auto",
+            random_state=self.random_state
+        )
+
+    def _set_sample_strategy(self, occurences):
+        samples = [k for k, v in occurences.items() if v > 0]
+        self.model.sampling_strategy = samples
+
+
+class EditedNearestNeighboursUnder(ImblearnUndersampling):
+    def __init__(self, data: pd.DataFrame, target: str):
+        super().__init__(data=data, target=target)
+        self._create_model()
+
+    def _create_model(self):
+        self.model = EditedNearestNeighbours(
+            sampling_strategy="auto"
+        )
+
+    def _set_sample_strategy(self, occurences):
+        samples = [k for k, v in occurences.items() if v > 0]
+        self.model.sampling_strategy = samples
+
+
+class InstanceHardnessThresholdUnder(ImblearnUndersampling):
+    def __init__(self, data: pd.DataFrame, target: str):
+        super().__init__(data=data, target=target)
+        self._create_model()
+
+    def _create_model(self):
+        self.model = InstanceHardnessThreshold(
+            sampling_strategy="auto",
+            random_state=self.random_state
+        )
+
+
+class NearMissUnder(ImblearnUndersampling):
+    def __init__(self, data: pd.DataFrame, target: str):
+        super().__init__(data=data, target=target)
+        self._create_model()
+
+    def _create_model(self):
+        self.model = NearMiss(
+            sampling_strategy="auto"
+        )
+
+
+class OneSidedSelectionUnder(ImblearnUndersampling):
+    def __init__(self, data: pd.DataFrame, target: str):
+        super().__init__(data=data, target=target)
+        self._create_model()
+
+    def _create_model(self):
+        self.model = OneSidedSelection(
+            sampling_strategy="auto",
+            random_state=self.random_state
+        )
+    
+    def _set_sample_strategy(self, occurences):
+        samples = [k for k, v in occurences.items() if v > 0]
+        self.model.sampling_strategy = samples
+
+
+class TomekLinksUnder(ImblearnUndersampling):
+    def __init__(self, data: pd.DataFrame, target: str):
+        super().__init__(data=data, target=target)
+        self._create_model()
+
+    def _create_model(self):
+        self.model = TomekLinks(
+            sampling_strategy="auto"
+        )
+
+    def _set_sample_strategy(self, occurences):
+        samples = [k for k, v in occurences.items() if v > 0]
+        self.model.sampling_strategy = samples
