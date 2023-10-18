@@ -37,8 +37,11 @@ OVERSAMPLING_METHODS = {
     "smote": SMOTESynthesizer,
     "tvae": TVAE
 }
-UNDERSAMPLING_THRESHOLDS = [0, 0.0625, 0.125, 0.25, 0.5, "auto"]
-OVERSAMPLING_THRESHOLDS = [0, 0.25, 0.5, 1, 2, "auto"]
+
+# UNDERSAMPLING_THRESHOLDS = [0, 0.0625, 0.125, 0.25, 0.5, "auto"]
+# OVERSAMPLING_THRESHOLDS = [0, 0.25, 0.5, 1, 2, "auto"]
+UNDERSAMPLING_THRESHOLDS = [0.25, "auto"]
+OVERSAMPLING_THRESHOLDS = ["auto"]
 
 FRAMEWORKS = {
     "autogluon": automl_autogluon,
@@ -84,6 +87,9 @@ def grid_search(
                 )
 
                 for under_threshold in UNDERSAMPLING_THRESHOLDS:
+                    if under_threshold == 0 and over_threshold == 0:
+                        if not(under_method_name == "random" and over_method_name == "random"):
+                            score = {}
 
                     try:
                         balanced_data = train_dataset.copy()

@@ -1,9 +1,17 @@
 import pandas as pd
 from data_balancing.autoML_frameworks.utils import eval
+import random
+import numpy as np
+import torch
 
 SEED = 42
 EXEC_TIME_MINUTES = 10
 EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
+
+
+random.seed(SEED)
+np.random.seed(SEED)
+torch.manual_seed(SEED)
     
 
 def fit_eval(X_train, X_test, y_train, y_test):
@@ -12,7 +20,7 @@ def fit_eval(X_train, X_test, y_train, y_test):
     train_df = pd.DataFrame(X_train).assign(**{'class': pd.Series(y_train)}).dropna()
     test_df = pd.DataFrame(X_test).assign(**{'class': pd.Series(y_test)}).dropna()
 
-    clf = TabularPredictor(eval_metric='accuracy', label='class')
+    clf = TabularPredictor(eval_metric='accuracy', label='class', verbosity=0)
 
     clf = clf.fit(time_limit=EXEC_TIME_SECONDS, train_data=train_df)
 

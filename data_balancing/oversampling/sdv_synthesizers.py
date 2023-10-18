@@ -4,6 +4,13 @@ from sdv.single_table import (CopulaGANSynthesizer, CTGANSynthesizer,
 
 from data_balancing.oversampling.base import SDVOversampling
 
+import numpy as np
+import torch
+
+SEED = 42
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+
 
 class CopulaGAN(SDVOversampling):
 
