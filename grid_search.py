@@ -85,10 +85,10 @@ def grid_search(
                 )
 
                 for under_threshold in UNDERSAMPLING_THRESHOLDS:
-                    if under_threshold == 0 and over_threshold == 0:
-                        if not(under_method_name == "random" and over_method_name == "random"):
-                            score = {}
-
+                    _id = (f"{dataset_name}_{framework_name}_"
+                           f"{over_method_name}-{over_threshold}_"
+                           f"{under_method_name}-{under_threshold}")
+                    print(_id)
                     try:
                         balanced_data = train_dataset.copy()
 
@@ -124,9 +124,7 @@ def grid_search(
                         score = {}
                     
                     report = {
-                        "_id": (f"{dataset_name}_{framework_name}_"
-                                f"{over_method_name}-{over_threshold}_"
-                                f"{under_method_name}-{under_threshold}"),
+                        "_id": _id,
                         "dataset_name": dataset_name,
                         "framework_name": framework_name,
                         "oversampling-method": over_method_name,
