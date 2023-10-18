@@ -38,10 +38,8 @@ OVERSAMPLING_METHODS = {
     "tvae": TVAE
 }
 
-# UNDERSAMPLING_THRESHOLDS = [0, 0.0625, 0.125, 0.25, 0.5, "auto"]
-# OVERSAMPLING_THRESHOLDS = [0, 0.25, 0.5, 1, 2, "auto"]
-UNDERSAMPLING_THRESHOLDS = [0.25, "auto"]
-OVERSAMPLING_THRESHOLDS = ["auto"]
+UNDERSAMPLING_THRESHOLDS = [0, 0.0625, 0.125, 0.25, 0.5, "auto"]
+OVERSAMPLING_THRESHOLDS = [0, 0.25, 0.5, 1, 2, "auto"]
 
 FRAMEWORKS = {
     "autogluon": automl_autogluon,
