@@ -168,3 +168,5 @@ AutogluonModels/
 autobalancer_*/
 structured_data_classifier/
 venv-*/
+optuna_models/*
+*.db
