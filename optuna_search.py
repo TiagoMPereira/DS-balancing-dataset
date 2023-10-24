@@ -3,6 +3,7 @@ import optuna
 
 from data_balancing.optimization.optimizer import Objective
 
+N_TRIALS = 256
 
 def optuna_search(
     train_dataset: pd.DataFrame, test_dataset: pd.DataFrame,
@@ -40,7 +41,7 @@ def optuna_search(
         pruner=optuna.pruners.NopPruner(),
         sampler=optuna.samplers.TPESampler(seed=42)
     )
-    study.optimize(objective, n_trials=3)
+    study.optimize(objective, n_trials=N_TRIALS)
 
     total_results = study.trials_dataframe(attrs=("number", "value", "params", "state"))
 
