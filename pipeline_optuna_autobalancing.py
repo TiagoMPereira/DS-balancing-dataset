@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from data_balancing.autoML_frameworks.utils import SEED
-from optuna_search import optuna_search
+from optuna_search_tpe import optuna_search_tpe
 
 DATASET_PATH = "./autobalancer_datasets/"
 RESULTS_PATH = "./autobalancer_optuna_results/"
