@@ -51,7 +51,7 @@ def run_pipeline(dataset_name: str, dataset_target: str, framework_name: str):
     # =========================================================================
     # APPLYING OPTUNA
 
-    results = optuna_search(
+    results = optuna_search_tpe(
         train_dataset=train_data,
         test_dataset=test_data,
         target=dataset_target,
