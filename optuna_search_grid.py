@@ -21,15 +21,6 @@ def optuna_search_grid(
     o_thresh = [0, 0.25, 0.5, 1, 2, "auto"]
     u_thresh = [0, 0.0625, 0.125, 0.25, 0.5, "auto"]
 
-    o_methods = [
-        "fastml"
-    ]
-    u_methods = [
-        "random"
-    ]
-    o_thresh = [0]
-    u_thresh = [0, "auto"]
-
     _id = f"optuna_{dataset_name}_{framework_name}"
 
     objective = Objective(
