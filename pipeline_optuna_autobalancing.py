@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 
 from data_balancing.autoML_frameworks.utils import SEED
 from optuna_search_tpe import optuna_search_tpe
+from optuna_search_grid import optuna_search_grid
 
 DATASET_PATH = "./autobalancer_datasets/"
 RESULTS_PATH = "./autobalancer_optuna_results/"

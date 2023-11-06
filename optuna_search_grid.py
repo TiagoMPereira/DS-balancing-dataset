@@ -52,7 +52,7 @@ def optuna_search_grid(
     }
 
     study = optuna.create_study(
-        study_name=_id+"1",
+        study_name=_id,
         direction="maximize",
         storage=f"sqlite:///{_id}.db",
         load_if_exists=True,
