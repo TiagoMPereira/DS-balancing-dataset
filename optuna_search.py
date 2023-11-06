@@ -1,9 +1,9 @@
 import pandas as pd
 import optuna
 
+from data_balancing.autoML_frameworks.utils import N_TRIALS, SEED
 from data_balancing.optimization.optimizer import Objective
 
-N_TRIALS = 256
 
 def optuna_search(
     train_dataset: pd.DataFrame, test_dataset: pd.DataFrame,
@@ -36,14 +36,17 @@ def optuna_search(
     )
 
     study = optuna.create_study(
-        study_name=_id, direction="maximize",
-        storage=f"sqlite:///{_id}.db", load_if_exists=True,
+        study_name=_id,
+        direction="maximize",
+        storage=f"sqlite:///{_id}.db",
+        load_if_exists=True,
         pruner=optuna.pruners.NopPruner(),
-        sampler=optuna.samplers.TPESampler(seed=42)
+        sampler=optuna.samplers.TPESampler(seed=SEED)
     )
-    study.optimize(objective, n_trials=N_TRIALS)
+
+    # study.optimize(objective, timeout=60)
+    study.optimize(objective, timeout=60*60, n_trials=N_TRIALS)
 
     total_results = study.trials_dataframe(attrs=("number", "value", "params", "state"))
 
     return total_results
-

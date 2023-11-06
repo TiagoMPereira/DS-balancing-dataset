@@ -5,11 +5,11 @@ import sys
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from data_balancing.autoML_frameworks.utils import SEED
 from optuna_search import optuna_search
 
 DATASET_PATH = "./autobalancer_datasets/"
 RESULTS_PATH = "./autobalancer_optuna_results/"
-SEED = 42
 
 def _train_test_split(X, y, test_size=0.2):
 
