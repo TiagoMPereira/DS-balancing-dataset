@@ -42,17 +42,18 @@ def optuna_search_grid(
         "undersampling_threshold": u_thresh,
     }
 
+    n_trials = 10 # len(o_methods) * len(u_methods) * len(o_thresh) * len(u_thresh)
+
     study = optuna.create_study(
         study_name=_id,
         direction="maximize",
-        storage=f"sqlite:///{_id}.db",
+        storage=f"sqlite:///artifacts/optuna_dbs/{_id}_{n_trials}_trials.db",
         load_if_exists=True,
         pruner=optuna.pruners.NopPruner(),
         sampler=optuna.samplers.GridSampler(seed=SEED, search_space=search_space)
     )
 
-    # study.optimize(objective, timeout=60)
-    study.optimize(objective, timeout=60*60, n_trials=N_TRIALS)
+    study.optimize(objective, n_trials=n_trials)
 
     total_results = study.trials_dataframe(attrs=("number", "value", "params", "state"))
 

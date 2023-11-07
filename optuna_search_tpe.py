@@ -38,7 +38,7 @@ def optuna_search_tpe(
     study = optuna.create_study(
         study_name=_id,
         direction="maximize",
-        storage=f"sqlite:///{_id}.db",
+        storage=f"sqlite:///artifacts/optuna_dbs/{_id}.db",
         load_if_exists=True,
         pruner=optuna.pruners.NopPruner(),
         sampler=optuna.samplers.TPESampler(seed=SEED)

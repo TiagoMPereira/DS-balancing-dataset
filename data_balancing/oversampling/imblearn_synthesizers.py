@@ -12,7 +12,8 @@ class ADASYNSynthesizer(ImblearnOversampling):
     def _create_model(self):
         self.model = ADASYN(
             sampling_strategy="auto",
-            random_state=self.random_state
+            random_state=self.random_state,
+            n_jobs=-1
         )
 
 
@@ -24,7 +25,7 @@ class RandomSynthesizer(ImblearnOversampling):
     def _create_model(self):
         self.model = RandomOverSampler(
             sampling_strategy="auto",
-            random_state=self.random_state
+            random_state=self.random_state,
         )
 
 
@@ -37,5 +38,6 @@ class SMOTESynthesizer(ImblearnOversampling):
     def _create_model(self):
         self.model = SMOTE(
             sampling_strategy="auto",
-            random_state=self.random_state
+            random_state=self.random_state,
+            n_jobs=-1
         )

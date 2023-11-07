@@ -67,7 +67,7 @@ class Objective:
         }
 
         # Models path
-        self.save_models_path = "./optuna_models/"
+        self.save_models_path = "./artifacts/optuna_models/"
 
     def _fit_eval(self, balanced_data: pd.DataFrame) -> float:
 

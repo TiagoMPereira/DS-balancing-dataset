@@ -42,7 +42,8 @@ class CondensedNearestNeighbourUnder(ImblearnUndersampling):
     def _create_model(self):
         self.model = CondensedNearestNeighbour(
             sampling_strategy="auto",
-            random_state=self.random_state
+            random_state=self.random_state,
+            n_jobs=-1
         )
 
     def _set_sample_strategy(self, occurences):
@@ -57,7 +58,8 @@ class EditedNearestNeighboursUnder(ImblearnUndersampling):
 
     def _create_model(self):
         self.model = EditedNearestNeighbours(
-            sampling_strategy="auto"
+            sampling_strategy="auto",
+            n_jobs=-1
         )
 
     def _set_sample_strategy(self, occurences):
@@ -73,7 +75,8 @@ class InstanceHardnessThresholdUnder(ImblearnUndersampling):
     def _create_model(self):
         self.model = InstanceHardnessThreshold(
             sampling_strategy="auto",
-            random_state=self.random_state
+            random_state=self.random_state,
+            n_jobs=-1
         )
 
 
@@ -84,7 +87,8 @@ class NearMissUnder(ImblearnUndersampling):
 
     def _create_model(self):
         self.model = NearMiss(
-            sampling_strategy="auto"
+            sampling_strategy="auto",
+            n_jobs=-1
         )
 
 
@@ -96,7 +100,8 @@ class OneSidedSelectionUnder(ImblearnUndersampling):
     def _create_model(self):
         self.model = OneSidedSelection(
             sampling_strategy="auto",
-            random_state=self.random_state
+            random_state=self.random_state,
+            n_jobs=-1
         )
     
     def _set_sample_strategy(self, occurences):
@@ -111,7 +116,8 @@ class TomekLinksUnder(ImblearnUndersampling):
 
     def _create_model(self):
         self.model = TomekLinks(
-            sampling_strategy="auto"
+            sampling_strategy="auto",
+            n_jobs=-1
         )
 
     def _set_sample_strategy(self, occurences):

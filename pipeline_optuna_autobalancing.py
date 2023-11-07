@@ -9,8 +9,8 @@ from data_balancing.autoML_frameworks.utils import SEED
 from optuna_search_tpe import optuna_search_tpe
 from optuna_search_grid import optuna_search_grid
 
-DATASET_PATH = "./autobalancer_datasets/"
-RESULTS_PATH = "./autobalancer_optuna_results/"
+DATASET_PATH = "./artifacts/autobalancer_datasets/"
+RESULTS_PATH = "./artifacts/autobalancer_optuna_results/"
 
 def _train_test_split(X, y, test_size=0.2):
 
@@ -52,7 +52,7 @@ def run_pipeline(dataset_name: str, dataset_target: str, framework_name: str):
     # =========================================================================
     # APPLYING OPTUNA
 
-    results = optuna_search_tpe(
+    results = optuna_search_grid(
         train_dataset=train_data,
         test_dataset=test_data,
         target=dataset_target,
