@@ -42,7 +42,7 @@ def optuna_search_grid(
         "undersampling_threshold": u_thresh,
     }
 
-    n_trials = 10 # len(o_methods) * len(u_methods) * len(o_thresh) * len(u_thresh)
+    n_trials = len(o_methods) * len(u_methods) * len(o_thresh) * len(u_thresh)
 
     study = optuna.create_study(
         study_name=_id,

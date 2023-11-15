@@ -30,7 +30,7 @@ rm -rf autobalancer_models* &> /dev/null
 rm -rf autobalancer_results* &> /dev/null
 rm -rf autobalancer_optuna_results* &> /dev/null
 rm -rf Autogluon* &> /dev/null
-rf -rf gama* &> /dev/null
+rm -rf gama* &> /dev/null
 rm -rf results* &> /dev/null
 rm -rf structured* &> /dev/null
 rm -rf venv-* &> /dev/null
