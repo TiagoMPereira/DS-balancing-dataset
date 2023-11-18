@@ -5,11 +5,12 @@ import sys
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from grid_search import grid_search
+from data_balancing.autoML_frameworks.utils import SEED
+from optuna_search_tpe import optuna_search_tpe
+from optuna_search_grid import optuna_search_grid
 
-DATASET_PATH = "./autobalancer_datasets/"
-RESULTS_PATH = "./autobalancer_results/"
-SEED = 42
+DATASET_PATH = "./artifacts/autobalancer_datasets/"
+RESULTS_PATH = "./artifacts/autobalancer_optuna_results/"
 
 def _train_test_split(X, y, test_size=0.2):
 
@@ -49,8 +50,9 @@ def run_pipeline(dataset_name: str, dataset_target: str, framework_name: str):
         test_data.to_csv(full_dataset_path+"_test.csv", index=False)
 
     # =========================================================================
-    # APPLYING GRID SEARCH
-    results = grid_search(
+    # APPLYING OPTUNA
+
+    results = optuna_search_grid(
         train_dataset=train_data,
         test_dataset=test_data,
         target=dataset_target,
@@ -63,8 +65,7 @@ def run_pipeline(dataset_name: str, dataset_target: str, framework_name: str):
     if not os.path.exists(RESULTS_PATH):
         os.makedirs(RESULTS_PATH)
 
-    with open(RESULTS_PATH+dataset_name+"_"+framework_name+"_results.json", "w") as fp:
-        json.dump(results, fp)
+    results.to_csv(RESULTS_PATH+dataset_name+"_"+framework_name+"_results.csv")
 
 if __name__ == "__main__":
     # =========================================================================

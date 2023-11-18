@@ -1,5 +1,10 @@
 from sklearn.metrics import *
 
+SEED = 42
+EXEC_TIME_MINUTES = 10
+EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
+N_TRIALS = 100
+
 def eval(y_test, y_pred):
     def _calculate_score(metric, y_true, y_pred, **kwargs):
         try:

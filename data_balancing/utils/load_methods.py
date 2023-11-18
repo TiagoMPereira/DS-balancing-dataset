@@ -6,6 +6,14 @@ import pandas as pd
 from data_balancing.oversampling import (CTGAN, FASTML, TVAE, ADASYNSynthesizer,
                                      CopulaGAN, GaussianCopula, IOversampling,
                                      RandomSynthesizer, SMOTESynthesizer)
+from data_balancing.undersampling import (ClusterCentroidsUnder,
+                                          CondensedNearestNeighbourUnder,
+                                          EditedNearestNeighboursUnder,
+                                          InstanceHardnessThresholdUnder,
+                                          NearMissUnder,
+                                          OneSidedSelectionUnder,
+                                          RandomUnder,
+                                          TomekLinksUnder)
 from data_balancing.undersampling import IUndersampling, RandomUnder
 
 
@@ -69,8 +77,15 @@ def get_under_method(
     
     # METHODS DICT
     methods: Dict[str, IUndersampling] = {
-        "random": RandomUnder
-    }
+    "random": RandomUnder,
+    "clustercentroid": ClusterCentroidsUnder,
+    "condensednn": CondensedNearestNeighbourUnder,
+    "editednn": EditedNearestNeighboursUnder,
+    "instancehardness": InstanceHardnessThresholdUnder,
+    "nearmiss": NearMissUnder,
+    "onesidedselection": OneSidedSelectionUnder,
+    "tomeklinks": TomekLinksUnder,
+}
 
     if not base_path:
         _method = methods.get(method_name)

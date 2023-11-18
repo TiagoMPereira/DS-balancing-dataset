@@ -1,8 +1,13 @@
-from data_balancing.autoML_frameworks.utils import eval
+import pandas as pd
+from data_balancing.autoML_frameworks.utils import eval, infer_task_type, EXEC_TIME_SECONDS, EXEC_TIME_MINUTES, SEED
+import random
+import numpy as np
+import torch
 
-SEED = 42
-EXEC_TIME_MINUTES = 10
-EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
+
+random.seed(SEED)
+np.random.seed(SEED)
+torch.manual_seed(SEED)
     
 
 def fit_eval(X_train, X_test, y_train, y_test):
@@ -18,8 +23,8 @@ def fit_eval(X_train, X_test, y_train, y_test):
         optimize_metric='accuracy',
         budget_type='runtime',
         total_walltime_limit=EXEC_TIME_SECONDS,
-        func_eval_time_limit_secs=EXEC_TIME_SECONDS/10,
-        memory_limit=8192
+        func_eval_time_limit_secs=EXEC_TIME_SECONDS//10,
+        memory_limit=None
     )
 
     y_pred = clf.predict(X_test)

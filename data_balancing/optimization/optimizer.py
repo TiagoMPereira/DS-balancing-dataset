@@ -2,10 +2,19 @@ from typing import Dict, List, Union
 
 import optuna
 import pandas as pd
-from autogluon.tabular import TabularPredictor
 from sklearn.metrics import f1_score
 import logging
 
+from data_balancing.autoML_frameworks import (automl_autogluon,
+                                              automl_autokeras,
+                                              automl_autopytorch,
+                                              automl_autosklearn,
+                                              automl_evalml,
+                                              automl_flaml,
+                                              automl_gama,
+                                              automl_h2o,
+                                              automl_lightautoml,
+                                              automl_tpot)
 from data_balancing.utils.load_methods import get_over_method, get_under_method
 from data_balancing.utils.sampling_strategies import (oversampling_strategy,
                                                   undersampling_strategy)
@@ -13,6 +22,19 @@ from data_balancing.utils.sampling_strategies import (oversampling_strategy,
 SEED = 42
 EXEC_TIME_MINUTES = 10
 EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
+
+FRAMEWORKS = {
+    "autogluon": automl_autogluon,
+    "autokeras": automl_autokeras,
+    "autopytorch": automl_autopytorch,
+    "autosklearn": automl_autosklearn,
+    "evalml": automl_evalml,
+    "flaml": automl_flaml,
+    "gama": automl_gama,
+    "h2o": automl_h2o,
+    "lightautoml": automl_lightautoml,
+    "tpot": automl_tpot
+}
 
 
 class Objective:
@@ -25,6 +47,7 @@ class Objective:
         undersampling_methods: List[str],
         oversampling_thresholds: List[Union[int, float, str]],
         undersampling_thresholds: List[Union[int, float, str]],
+        framework_name: str,
         project_id: str,
     ):
         self.oversampling_methods = oversampling_methods
@@ -35,6 +58,7 @@ class Objective:
         self.train_dataset = train_dataset
         self.test_dataset = test_dataset
         self.target = target
+        self.framework_name = framework_name
 
         # Original class occurences
         self.class_occurences = {
@@ -43,27 +67,22 @@ class Objective:
         }
 
         # Models path
-        self.save_models_path = "./models/"
+        self.save_models_path = "./artifacts/optuna_models/"
 
-    def _fit_eval(self, data: pd.DataFrame) -> float:
+    def _fit_eval(self, balanced_data: pd.DataFrame) -> float:
 
-        X_train = data.drop(columns=self.target)
-        y_train = data[self.target]
+        # SCORE
+        X_train = balanced_data.drop(columns=self.target)
+        y_train = balanced_data[self.target]
 
         X_test = self.test_dataset.drop(columns=self.target)
         y_test = self.test_dataset[self.target]
+        score = FRAMEWORKS[self.framework_name].fit_eval(
+            X_train=X_train, X_test=X_test,
+            y_train=y_train, y_test=y_test
+        )
 
-        train_df = pd.DataFrame(X_train).assign(**{'class': pd.Series(y_train)}).dropna()
-        test_df = pd.DataFrame(X_test).assign(**{'class': pd.Series(y_test)}).dropna()
-
-        clf = TabularPredictor(eval_metric='accuracy', label='class')
-
-        clf = clf.fit(time_limit=EXEC_TIME_SECONDS, train_data=train_df)
-
-        y_test = test_df['class'].values
-        y_pred = clf.predict(test_df)
-
-        return float(f1_score(y_test, y_pred, average="weighted"))
+        return float(score.get("f1_score_weighted", -1))
 
 
     def __call__(self, trial):
@@ -130,43 +149,6 @@ class Objective:
 
         except Exception as e:
             logging.error(f"\nFAIL ON \n{_description}\n{e}")
-            score = 0.0
+            score = -1.0
 
         return score
-
-
-if __name__ == "__main__":
-
-    dataset_name = "synthetic_dataset2"
-    target = "class"
-
-    train_dataset = pd.read_csv(f"./datasets/{dataset_name}_train.csv")
-    test_dataset = pd.read_csv(f"./datasets/{dataset_name}_test.csv")
-
-    o_methods = [
-        "adasyn", "ctgan", "copulagan", "fastml",
-        "gaussiancopula", "random", "smote", "tvae"
-    ]
-    u_methods = ["random"]
-    o_thresh = [0, 0.25, 0.5, 1, 5, "auto"]
-    u_thresh = [0, 0.05, 0.1, 0.2, 0.3, "auto"]
-
-    _id = "optuna_test"
-
-    objective = Objective(
-        train_dataset = train_dataset,
-        test_dataset = test_dataset,
-        target = target,
-        oversampling_methods = o_methods,
-        undersampling_methods = u_methods,
-        oversampling_thresholds = o_thresh,
-        undersampling_thresholds = u_thresh,
-        project_id = _id,
-    )
-
-    study = optuna.create_study(direction="maximize")
-    study.optimize(objective, n_trials=10)
-
-    print(study.best_trial)
-
-    print(study.get_trials())

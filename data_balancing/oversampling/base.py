@@ -1,5 +1,6 @@
 import pickle as pkl
 from typing import Dict, List
+import uuid
 
 import pandas as pd
 from imblearn.over_sampling.base import BaseOverSampler
@@ -66,7 +67,7 @@ class SDVOversampling(IOversampling):
         self.target = target
         self.locales = ['en-us']
         self.verbose = False
-        self.cuda = False
+        self.cuda = True
         self.fit_time = None
         self.sample_time = None
         self.fit_memo = None
@@ -101,7 +102,9 @@ class SDVOversampling(IOversampling):
 
     def resample(self, occurences: Dict[str, int]) -> pd.DataFrame:
         conditions = self._get_conditions(occurences)
-        generated_data = self.model.sample_from_conditions(conditions)
+        generated_data = self.model.sample_from_conditions(
+            conditions, 
+            output_file_path=f'artifacts/sdv_cache/{uuid.uuid4()}.csv')
         
         # The generated_data is (as it says) only the new rows, so it's
         # necessary to append it to original data
