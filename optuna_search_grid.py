@@ -1,7 +1,7 @@
 import pandas as pd
 import optuna
 
-from data_balancing.autoML_frameworks.utils import N_TRIALS, SEED
+from data_balancing.autoML_frameworks.utils import GET_SEED
 from data_balancing.optimization.optimizer import Objective
 
 
@@ -47,13 +47,13 @@ def optuna_search_grid(
     study = optuna.create_study(
         study_name=_id,
         direction="maximize",
-        storage=f"sqlite:///artifacts/optuna_dbs/{_id}_{n_trials}_trials.db",
+        storage=f"sqlite:///artifacts/optuna_dbs/{_id}_{GET_SEED()}_{n_trials}.db",
         load_if_exists=True,
         pruner=optuna.pruners.NopPruner(),
-        sampler=optuna.samplers.GridSampler(seed=SEED, search_space=search_space)
+        sampler=optuna.samplers.GridSampler(seed=GET_SEED(), search_space=search_space)
     )
 
-    study.optimize(objective, n_trials=n_trials)
+    study.optimize(objective, n_trials=n_trials, catch=(Exception,))
 
     total_results = study.trials_dataframe(attrs=("number", "value", "params", "state"))
 

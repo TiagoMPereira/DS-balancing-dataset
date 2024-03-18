@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from data_balancing.autoML_frameworks.utils import SEED
+from data_balancing.autoML_frameworks.utils import SET_SEED, GET_SEED
 from optuna_search_tpe import optuna_search_tpe
 from optuna_search_grid import optuna_search_grid
 
@@ -15,7 +15,7 @@ RESULTS_PATH = "./artifacts/autobalancer_optuna_results/"
 def _train_test_split(X, y, test_size=0.2):
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=SEED
+        X, y, test_size=test_size, random_state=GET_SEED()
     )
     return X_train, X_test, y_train, y_test
 
@@ -71,12 +71,17 @@ if __name__ == "__main__":
     # =========================================================================
     # Reading shell variables
 
-    if len(sys.argv) !=4:
-        print('Number of arguments must be 3: "dataset_name", "dataset_target", "framework_name"')
+    print(f'sys.argv', sys.argv)
+    if len(sys.argv) not in [4, 5]:
+        print('Number of arguments must be 4 or 5: "dataset_name", "dataset_target", "framework_name", [seed]')
     else:
         dataset_name = str(sys.argv[1])
         dataset_target = str(sys.argv[2])
         framework_name = str(sys.argv[3])
+        if len(sys.argv) == 5:
+            seed = int(sys.argv[4])
+            SET_SEED(seed=seed)
         
-    # run_pipeline("openml_44", "class", "autogluon")
+    print(f'\n**** {dataset_name:} {dataset_target:} {framework_name:} {GET_SEED()} ****\n')
+    # run_pipeline("openml_44", "class", "autogluon", 42)
     run_pipeline(dataset_name, dataset_target, framework_name)

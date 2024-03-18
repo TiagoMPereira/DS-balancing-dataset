@@ -2,14 +2,14 @@ from sdv.lite import SingleTablePreset
 from sdv.single_table import (CopulaGANSynthesizer, CTGANSynthesizer,
                               GaussianCopulaSynthesizer, TVAESynthesizer)
 
+from data_balancing.autoML_frameworks.utils import GET_SEED
 from data_balancing.oversampling.base import SDVOversampling
 
 import numpy as np
 import torch
 
-SEED = 42
-np.random.seed(SEED)
-torch.manual_seed(SEED)
+np.random.seed(GET_SEED())
+torch.manual_seed(GET_SEED())
 
 
 class CopulaGAN(SDVOversampling):

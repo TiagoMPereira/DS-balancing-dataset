@@ -1,9 +1,17 @@
 from sklearn.metrics import *
 
-SEED = 42
-EXEC_TIME_MINUTES = 10
+_SEED = 42
+EXEC_TIME_MINUTES = 5
 EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
 N_TRIALS = 100
+
+def SET_SEED(seed):
+    global _SEED
+    _SEED = seed
+
+def GET_SEED():
+    global _SEED
+    return _SEED
 
 def eval(y_test, y_pred):
     def _calculate_score(metric, y_true, y_pred, **kwargs):

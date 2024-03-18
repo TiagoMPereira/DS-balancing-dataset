@@ -1,7 +1,7 @@
 import pandas as pd
 import optuna
 
-from data_balancing.autoML_frameworks.utils import N_TRIALS, SEED
+from data_balancing.autoML_frameworks.utils import N_TRIALS, GET_SEED
 from data_balancing.optimization.optimizer import Objective
 
 
@@ -38,14 +38,14 @@ def optuna_search_tpe(
     study = optuna.create_study(
         study_name=_id,
         direction="maximize",
-        storage=f"sqlite:///artifacts/optuna_dbs/{_id}.db",
+        storage=f"sqlite:///artifacts/optuna_dbs/{_id}_{GET_SEED()}.db",
         load_if_exists=True,
         pruner=optuna.pruners.NopPruner(),
-        sampler=optuna.samplers.TPESampler(seed=SEED)
+        sampler=optuna.samplers.TPESampler(seed=GET_SEED())
     )
 
     # study.optimize(objective, timeout=60)
-    study.optimize(objective, timeout=60*60, n_trials=N_TRIALS)
+    study.optimize(objective, timeout=60*60, n_trials=N_TRIALS, catch=(Exception,))
 
     total_results = study.trials_dataframe(attrs=("number", "value", "params", "state"))
 

@@ -19,9 +19,6 @@ from data_balancing.utils.load_methods import get_over_method, get_under_method
 from data_balancing.utils.sampling_strategies import (oversampling_strategy,
                                                   undersampling_strategy)
 
-SEED = 42
-EXEC_TIME_MINUTES = 10
-EXEC_TIME_SECONDS = EXEC_TIME_MINUTES*60
 
 FRAMEWORKS = {
     "autogluon": automl_autogluon,
